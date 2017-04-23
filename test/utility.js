@@ -34,13 +34,13 @@ describe ("Testing utility methods", function () {
             }); 
         })
 
-       /* it ("should return false for broken API", function (done) {
+       it ("should return false for broken API", function (done) {
             util.getDataFromAPI ("https://techfe.herokuapp.com/hacke")
                 .then (function (data) {
                     expect (data).to.be.false;
                     done();
             }); 
-        })  */
+        })
 
     })
 

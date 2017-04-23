@@ -9,28 +9,38 @@ var handlers = {
     "GetTrendingTopics" : function () {
         var inputWebsite = this.event.request.intent.slots.website.value;
         var endPoint = Utility.getEndpoint (inputWebsite);
-        var apiResult = Utility.getDataFromAPI (endPoint);
 
-        apiResult.then (data => {
-            var speechText = [];
-            var cardText = "";
-            var includePause = "<break time='1s'/>";
-            if (data) {
-                for (var topic of data) {
-                    //To handle speech
-                    var topicTitle = topic.title.replace(/&/g, ' and ');
-                    speechText.push(`${topicTitle} ${includePause}`);
+        if (endPoint) {
+            var apiResult = Utility.getDataFromAPI (endPoint); 
+            apiResult.then (data => {
+                var speechText = [];
+                var cardText = "";
+                var includePause = "<break time='1s'/>";
+                if (data) {
+                    for (var topic of data) {
+                        //To handle speech
+                        var topicTitle = topic.title.replace(/&/g, ' and ');
+                        speechText.push(`${topicTitle} ${includePause}`);
 
-                    //To handle card
-                    cardText += `${topic.title}. \n`;
+                        //To handle card
+                        cardText += `${topic.title}. \n`;
+                    }
+                } else {
+                    speechText = "Sorry something went wrong. Please try sometime later";
+                    cardText = "Sorry something went wrong. Please try sometime later";
                 }
-            } else {
-                speechText = "Sorry something went wrong. Please try sometime later";
-                cardText = "Sorry something went wrong. Please try sometime later";
-            }
-            this.emit(':tellWithCard', speechText.toString(), inputWebsite, cardText);
-            
-        })                  
+                this.emit(':tellWithCard', speechText.toString(), inputWebsite, cardText);
+                
+            }) 
+        } else {
+            var speechText = `Sorry, I can only provide information for ${supportedSites}. Now, which site you would like ?`;
+            var cardText = `Requested information is not available. Valid sites are ${supportedSites}`;
+            var repromptText = `For instructions on what you can say, please say help me.`;
+
+            this.emit(':askWithCard', speechText, repromptText, inputWebsite, cardText);
+        }
+
+                        
 
     },
 
@@ -46,9 +56,9 @@ var handlers = {
 
     "AMAZON.HelpIntent" : function () {
         var speechText = "Here are somethings you can say: ";
-        speechText += "what's' trending in Hacker News";
-        speechText += "current news in Tech Crunch";
-        speechText += "trending topics in Tech Meme";
+        speechText += " What's' trending in Hacker News.";
+        speechText += " Current news in Tech Crunch.";
+        speechText += " Trending topics in Tech Meme";
 
         this.emit(':ask', speechText, speechText);
         

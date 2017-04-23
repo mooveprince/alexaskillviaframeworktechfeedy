@@ -4,7 +4,7 @@ var index = require('../index');
 const context = require('aws-lambda-mock-context');
 const ctx = context();
 
-describe ("Testing a session with LaunchIntent", function () {
+describe ("Testing a session with TrendingIntent", function () {
 
     var speechResponse = null
     var speechError = null
@@ -22,11 +22,20 @@ describe ("Testing a session with LaunchIntent", function () {
                 },
                 "new": false
             },
-            "request": {
-                "type": "LaunchRequest",
-                "requestId": "EdwRequestId.b0b2cb22-e625-4b1f-8b09-86feadc0d743",
+              "request": {
+                "type": "IntentRequest",
+                "requestId": "EdwRequestId.1f1bc23d-f0ec-4caa-8d25-2e436b38af40",
                 "locale": "en-US",
-                "timestamp": "2017-04-22T13:41:55Z"
+                "timestamp": "2017-04-09T19:14:14Z",
+                "intent": {
+                "name": "GetTrendingTopics",
+                "slots": {
+                    "website": {
+                    "name": "website",
+                    "value": "product hunt"
+                    }
+                }
+                }
             },
             "version": "1.0"
         }, ctx);
@@ -47,8 +56,8 @@ describe ("Testing a session with LaunchIntent", function () {
         })
  
         it('should have a speechlet response', function() {
-            expect(speechResponse.response).not.to.be.null
             console.log (speechResponse);
+            expect(speechResponse.response).not.to.be.null
         })
 
         it('should have session attributes', function() {
@@ -62,6 +71,14 @@ describe ("Testing a session with LaunchIntent", function () {
         it("should have session remain open", function() {
             expect(speechResponse.response.shouldEndSession).not.to.be.null
             expect(speechResponse.response.shouldEndSession).to.be.false
+        })
+
+        it ("should have card in the response", function () {
+            expect(speechResponse.response.card).not.to.be.null
+        })
+
+        it ("should have content in the card", function () {
+            expect(speechResponse.response.card.content).not.to.be.null
         })
 
     })
