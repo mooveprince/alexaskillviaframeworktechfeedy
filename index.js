@@ -7,8 +7,30 @@ var supportedSites = ['Hacker News', 'Tech Crunch', 'Tech Meme'];
 var handlers = {
 
     "GetTrendingTopics" : function () {
-        var inputWebsite = event.request.intent.slots.website.value;
+        var inputWebsite = this.event.request.intent.slots.website.value;
         var endPoint = Utility.getEndpoint (inputWebsite);
+        var apiResult = Utility.getDataFromAPI (endPoint);
+
+        apiResult.then (data => {
+            var speechText = [];
+            var cardText = "";
+            var includePause = "<break time='1s'/>";
+            if (data) {
+                for (var topic of data) {
+                    //To handle speech
+                    var topicTitle = topic.title.replace(/&/g, ' and ');
+                    speechText.push(`${topicTitle} ${includePause}`);
+
+                    //To handle card
+                    cardText += `${topic.title}. \n`;
+                }
+            } else {
+                speechText = "Sorry something went wrong. Please try sometime later";
+                cardText = "Sorry something went wrong. Please try sometime later";
+            }
+            this.emit(':tellWithCard', speechText.toString(), inputWebsite, cardText);
+            
+        })                  
 
     },
 

@@ -1,4 +1,4 @@
-var https = require ('https');
+var rp = require('request-promise');
 
 const hackerNewsEndpoint = "https://techfeedyservice.herokuapp.com/hackernews";
 const techCrunchEndpoint = "https://techfeedyservice.herokuapp.com/techcrunch";
@@ -18,21 +18,16 @@ var getEndpoint = function (websiteName) {
 }
 
 var getDataFromAPI = function (endpoint) {
-    var body = '';
+    var options = {
+        uri: endpoint,
+        json: true
+    }
 
-    var promise = new Promise ((resolve, reject) => {
-        https.get (endpoint, (response) => {
-            response.on ('data', (chunk) => { body += chunk});
-            response.on ('end', () => { 
-                topics = JSON.parse (body);
-                console.log ("Topics in promise");
-                resolve (topics);
-            })
-        });
-    });
-
-    promise.then (topics => { console.log ("Topics in resolved") ;return topics});
-
+   return rp (options)
+        .then (function (topics) {
+            return topics;
+        })
+        .catch (err => {console.log ("Error in calling API " + err.statusCode); return false});
 }
 
 module.exports = {

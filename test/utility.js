@@ -25,9 +25,22 @@ describe ("Testing utility methods", function () {
     describe ("getDataFromAPI", function () {
 
         it ("should return data from API", function (done) {
-            expect (util.getDataFromAPI ("https://techfeedyservice.herokuapp.com/hackernews")).not.to.be.null;
-            done ();
+            util.getDataFromAPI ("https://techfeedyservice.herokuapp.com/techcrunch")
+                .then (function (data) {
+                    
+                    expect (data).not.to.be.null;
+                    expect (data.length).to.be.above(0);
+                    done();
+            }); 
         })
+
+       /* it ("should return false for broken API", function (done) {
+            util.getDataFromAPI ("https://techfe.herokuapp.com/hacke")
+                .then (function (data) {
+                    expect (data).to.be.false;
+                    done();
+            }); 
+        })  */
 
     })
 
