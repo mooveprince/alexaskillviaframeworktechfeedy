@@ -7,7 +7,7 @@ var supportedSites = ['Hacker News', 'Tech Crunch', 'Tech Meme'];
 var handlers = {
 
     "GetTrendingTopics" : function () {
-        var inputWebsite = this.event.request.intent.slots.website.value;
+        var inputWebsite = this.event.request.intent.slots.website.value || "Invalid Data";
         var endPoint = Utility.getEndpoint (inputWebsite);
 
         if (endPoint) {

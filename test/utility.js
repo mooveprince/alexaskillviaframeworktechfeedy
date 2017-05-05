@@ -20,6 +20,11 @@ describe ("Testing utility methods", function () {
         it ("should return error", function () {
             expect (util.getEndpoint ("product")).to.be.equal (false);
         })
+
+        it ("should return error", function () {
+            expect (util.getEndpoint (" ")).to.be.equal (false);
+        })
+
     })
 
     describe ("getDataFromAPI", function () {

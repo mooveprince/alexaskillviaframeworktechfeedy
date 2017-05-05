@@ -5,7 +5,7 @@ const techCrunchEndpoint = "https://techfeedyservice.herokuapp.com/techcrunch";
 const techMemeEndpoint = "https://techfeedyservice.herokuapp.com/techmeme" ;
 
 var getEndpoint = function (websiteName) {
-    switch (websiteName.trim().toUpperCase()) {
+    switch (websiteName && websiteName.trim().toUpperCase()) {
         case "HACKER NEWS":
             return hackerNewsEndpoint;      
         case "TECH MEME" :
