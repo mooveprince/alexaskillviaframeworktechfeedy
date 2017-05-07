@@ -1,7 +1,7 @@
 var Alexa = require ('alexa-sdk');
 var Utility = require ('./utility.js');
 
-const skillName = "Tech Feedy";
+const skillName = "Tech Topics";
 var supportedSites = ['Hacker News', 'Tech Crunch', 'Tech Meme'];
 
 var handlers = {
@@ -39,9 +39,7 @@ var handlers = {
 
             this.emit(':askWithCard', speechText, repromptText, inputWebsite, cardText);
         }
-
-                        
-
+        
     },
 
     "AMAZON.StopIntent": function () {
@@ -65,7 +63,7 @@ var handlers = {
     },
 
     "LaunchRequest" : function () {
-        var speechText = `Welcome to TechFeedy. One stop for your trending topics.  
+        var speechText = `Welcome to ${skillName}. One stop for your trending topics.  
         Now, which site you would like ? ${supportedSites} `;
         var repromptText = `For instructions on what you can say, please say help me.`;
 
