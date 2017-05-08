@@ -1,13 +1,14 @@
 var Alexa = require ('alexa-sdk');
 var Utility = require ('./utility.js');
 
-const skillName = "Tech Topics";
+const skillName = "Trending Topics";
 var supportedSites = ['Hacker News', 'Tech Crunch', 'Tech Meme'];
 
 var handlers = {
 
     "GetTrendingTopics" : function () {
-        var inputWebsite = this.event.request.intent.slots.website.value || "Invalid Data";
+        var inputWebsite = this.event.request.intent.slots.website.value;
+        console.log (" Input Website " + inputWebsite);
         var endPoint = Utility.getEndpoint (inputWebsite);
 
         if (endPoint) {
@@ -37,9 +38,10 @@ var handlers = {
             var cardText = `Requested information is not available. Valid sites are ${supportedSites}`;
             var repromptText = `For instructions on what you can say, please say help me.`;
 
-            this.emit(':askWithCard', speechText, repromptText, inputWebsite, cardText);
+            var headerForCard = inputWebsite || 'Invalid Data';
+            this.emit(':askWithCard', speechText, repromptText, headerForCard, cardText);
         }
-        
+
     },
 
     "AMAZON.StopIntent": function () {
@@ -63,7 +65,7 @@ var handlers = {
     },
 
     "LaunchRequest" : function () {
-        var speechText = `Welcome to ${skillName}. One stop for your trending topics.  
+        var speechText = `Welcome to ${skillName}. One stop for your technical trending topics.  
         Now, which site you would like ? ${supportedSites} `;
         var repromptText = `For instructions on what you can say, please say help me.`;
 

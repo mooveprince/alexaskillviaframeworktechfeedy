@@ -18,7 +18,7 @@ describe ("Testing utility methods", function () {
         })
 
         it ("should return error", function () {
-            expect (util.getEndpoint ("product")).to.be.equal (false);
+            expect (util.getEndpoint ("product hunt")).to.be.equal (false);
         })
 
         it ("should return error", function () {
